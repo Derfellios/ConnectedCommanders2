@@ -1,0 +1,1 @@
+Only works in 2v2 games. Swaps the income within a team.
