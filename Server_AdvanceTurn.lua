@@ -19,8 +19,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		-- Recreates the order if the commanders attacks or tranfers when tranfering is not allowed
 		if (result.IsAttack or not Mod.Settings.allowTransfering) and NotTableEmpty(order.NumArmies.SpecialUnits) then		
 			local NewArmies = WL.Armies.Create(order.NumArmies.NumArmies, {})
+			skipThisOrder(WL.ModOrderControl.Skip)
 			addNewOrder(WL.GameOrderAttackTransfer.Create(OrderFrom.OwnerPlayerID , OrderFrom.ID, OrderTo.ID, order.AttackTransfer, order.ByPercent, NewArmies, order.AttackTeammates))
-			skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 		end
 	end
 end
