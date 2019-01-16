@@ -17,37 +17,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local OrderTo = game.ServerGame.LatestTurnStanding.Territories[order.To]
 		local OrderFrom = game.ServerGame.LatestTurnStanding.Territories[order.From]
 		-- Recreates the order if the commanders attacks or tranfers when tranfering is not allowed
-		if result.IsAttack and NotTableEmpty(order.NumArmies.SpecialUnits) then	
-			--change true when transferring is not allowed
-			if Mod.Settings.allowTransfering then		
-				local NewArmies = WL.Armies.Create(order.NumArmies.NumArmies, {})
-				addNewOrder(WL.GameOrderAttackTransfer.Create(OrderFrom.OwnerPlayerID , OrderFrom.ID, OrderTo.ID, order.AttackTransfer, order.ByPercent, NewArmies, order.AttackTeammates))
-				skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-				--return
-			end 
+		if (result.IsAttack or not Mod.Settings.allowTransfering) and NotTableEmpty(order.NumArmies.SpecialUnits) then		
+			local NewArmies = WL.Armies.Create(order.NumArmies.NumArmies, {})
+			addNewOrder(WL.GameOrderAttackTransfer.Create(OrderFrom.OwnerPlayerID , OrderFrom.ID, OrderTo.ID, order.AttackTransfer, order.ByPercent, NewArmies, order.AttackTeammates))
+			skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 		end
-		--[[
-		if result.IsAttack and NotTableEmpty(OrderTo.NumArmies.SpecialUnits) then
-			Terr = game.Map.Territories[OrderTo.ID].ConnectedTo
-			count = 0
-			PossibleTerr = {}
-			PlayerAttacked = game.ServerGame.LatestTurnStanding.Territories[OrderTo.ID].OwnerPlayerID
-			for TerrID,_ in pairs(Terr) do
-				if game.ServerGame.LatestTurnStanding.Territories[TerrID].OwnerPlayerID == PlayerAttacked then
-					count = count + 1
-					table.insert(PossibleTerr, TerrID)
-				end
-			end
-			print (count)
-			if count > 0 then
-				TerrTo = PossibleTerr[math.random(1,count)]
-				NewCom = WL.Armies.Create(0, order.NumArmies.SpecialUnits)
-				skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-				addNewOrder(WL.GameOrderAttackTransfer.Create(OrderTo.OwnerPlayerID , OrderTo.ID, TerrTo, order.AttackTransfer, false, NewCom, order.AttackTeammates))
-				addNewOrder(WL.GameOrderAttackTransfer.Create(OrderFrom.OwnerPlayerID , OrderFrom.ID, OrderTo.ID, order.AttackTransfer, order.ByPercent, order.NumArmies, order.AttackTeammates))
-			end
-		end
-		--]]
 	end
 end
 
