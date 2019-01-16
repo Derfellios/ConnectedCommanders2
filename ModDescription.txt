@@ -1,0 +1,7 @@
+This mod adds new rules to commanders:
+1) Every starting territory gets a commander.
+2) Commanders can only transfer, but you can also disallow that which causes them to stay at their spot.
+3) Reconnaisance cards spawn a new commander when played on your own territory.
+4) When for a territory there is no path between it and a commander at the end of a turn, it becomes neutral.
+
+(It is not posssible to change the value of a commander and if it dies you still lose the game. There is no workaround to solve this)
