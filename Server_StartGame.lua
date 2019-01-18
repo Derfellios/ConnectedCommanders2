@@ -1,5 +1,5 @@
 function Server_StartGame(game, standing)
-	if (game.Settings.LimitDistributionTerritories > 10) and (not false) then
+	if (game.Settings.LimitDistributionTerritories > 10) and (Mod.Settings.startWithCommander) then
 		print "allowed only with no more than 4 starts"
 		return
 	end
