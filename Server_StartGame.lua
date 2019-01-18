@@ -1,9 +1,14 @@
 function Server_StartGame(game, standing)
-	if (game.Settings.LimitDistributionTerritories > 10) and (Mod.Settings.startWithCommander) then
-		print "allowed only with no more than 4 starts"
+	
+	if (Mod.Settings.startWithCommander) then 
 		return
 	end
 	
+	if (game.Settings.LimitDistributionTerritories > 10)  then
+		print "allowed only with no more than 4 starts"
+		return
+	end
+
 	for _, territory in pairs(standing.Territories) do
 		if (not territory.IsNeutral) then
 			local numArmies = territory.NumArmies.NumArmies
@@ -11,4 +16,5 @@ function Server_StartGame(game, standing)
 			territory.NumArmies = newArmies
 		end
 	end
+	
 end
