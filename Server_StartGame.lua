@@ -1,6 +1,6 @@
 function Server_StartGame(game, standing)
 	
-	if (Mod.Settings.startWithCommander) then 
+	if (not Mod.Settings.startWithCommander) then 
 		return
 	end
 	
