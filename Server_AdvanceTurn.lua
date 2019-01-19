@@ -11,7 +11,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			effect.AddSpecialUnits = {Unit};
 			print(game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false))
 			print(game.Map.Territories[territory.ID].Name)
-			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID.ID].Name, {}, {effect}))
+			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID].Name, {}, {effect}))
             end
         end
 		
