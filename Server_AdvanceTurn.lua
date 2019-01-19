@@ -9,7 +9,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				local Unit = WL.Commander.Create(CardPlayer); 
 				local effect = WL.TerritoryModification.Create(territory.ID);
 				effect.AddSpecialUnits = {Unit};
-				addNewOrder(WL.GameOrderEvent.Create(CardPlayer, "Commander", {}, {effect}))
+				addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer] .. game.Map.Territories[Terr].Name" deploys a Commander in " .. , {}, {effect}))
             end
         end
 		
