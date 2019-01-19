@@ -3,15 +3,15 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	local proxtype = order.proxyType
 	if(proxtype == 'GameOrderPlayCardReconnaissance') then
 		local territory = game.ServerGame.LatestTurnStanding.Territories[order.TargetTerritory]
-        local PlayerOwnedTerr = territory.OwnerPlayerID;
-        local CardPlayer = order.PlayerID;
-            if PlayerOwnedTerr == CardPlayer then
-				local Unit = WL.Commander.Create(CardPlayer); 
-				local effect = WL.TerritoryModification.Create(territory.ID);
-				effect.AddSpecialUnits = {Unit};
-				print(game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false))
-				print(game.Map.Territories[PlayerOwnedTerr].Name)
-				addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[PlayerOwnedTerr].Name, {}, {effect}))
+        	local PlayerOwnedTerr = territory.OwnerPlayerID;
+        	local CardPlayer = order.PlayerID;
+            	if PlayerOwnedTerr == CardPlayer then
+			local Unit = WL.Commander.Create(CardPlayer); 
+			local effect = WL.TerritoryModification.Create(territory.ID);
+			effect.AddSpecialUnits = {Unit};
+			print(game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false))
+			print(game.Map.Territories[territory.ID].Name)
+			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID.ID].Name, {}, {effect}))
             end
         end
 		
