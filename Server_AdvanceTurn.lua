@@ -1,7 +1,8 @@
-function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
-	-- Add Commanders with recon card.
+function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)	
 	local proxtype = order.proxyType
+	
 	if(proxtype == 'GameOrderPlayCardReconnaissance') then
+		-- Add Commanders with recon card.
 		local territory = game.ServerGame.LatestTurnStanding.Territories[order.TargetTerritory]
         	local PlayerOwnedTerr = territory.OwnerPlayerID;
         	local CardPlayer = order.PlayerID;
@@ -10,17 +11,14 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local effect = WL.TerritoryModification.Create(territory.ID);
 			effect.AddSpecialUnits = {Unit};
 			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID].Name, {}, {effect}))
-            end
+            	end
+		skipThisOrder(WL.ModOrderControl.Skip)
         end
 		
 	if (proxtype == 'GameOrderAttackTransfer') then
-		local OrderTo = game.ServerGame.LatestTurnStanding.Territories[order.To]
-		local OrderFrom = game.ServerGame.LatestTurnStanding.Territories[order.From]
-		-- Recreates the order if the commanders attacks or tranfers when tranfering is not allowed
+		-- Recreates the order if the commanders attacks or transfers when transfering is not allowed
 		if (result.IsAttack or not Mod.Settings.allowTransfering) and NotTableEmpty(order.NumArmies.SpecialUnits) then		
-			--local NewArmies = WL.Armies.Create(order.NumArmies.NumArmies, {})
 			skipThisOrder(WL.ModOrderControl.Skip)
-			--addNewOrder(WL.GameOrderAttackTransfer.Create(OrderFrom.OwnerPlayerID , OrderFrom.ID, OrderTo.ID, order.AttackTransfer, order.ByPercent, NewArmies, order.AttackTeammates))
 		end
 	end
 end
@@ -75,8 +73,9 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 			Effect[tablelength(Effect)].SetOwnerOpt = WL.PlayerID.Neutral;
 			DoEffect = true
 		end
+		
 		if DoEffect then 
-			addNewOrder(WL.GameOrderEvent.Create(Player, "Lost some territories because they were not connected", {}, Effect));
+			addNewOrder(WL.GameOrderEvent.Create(Player, "Lost some territories because they were not connected to a commander", {}, Effect));
 		end
 	end
 end
@@ -91,8 +90,8 @@ end
 function NotinTable(tbl, item)
     for key, value in pairs(tbl) do
         if value == item then 
-			return false 
-		end
+		return false 
+	end
     end
     return true
 end
