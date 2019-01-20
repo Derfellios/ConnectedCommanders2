@@ -12,7 +12,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			effect.AddSpecialUnits = {Unit};
 			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID].Name, {}, {effect}))
             	end
-		skipThisOrder(WL.ModOrderControl.Skip)
+		skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
         end
 		
 	if (proxtype == 'GameOrderAttackTransfer') then
