@@ -12,12 +12,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			effect.AddSpecialUnits = {Unit};
 			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID].Name, {}, {effect}))
             	end
+		addNewOrder(WL.GameOrderDiscard.Create(CardPlayer, order.CardInstanceID))
 		skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
         end
 		
 	if (proxtype == 'GameOrderAttackTransfer') then
 		-- Recreates the order if the commanders attacks or transfers when transfering is not allowed
-		if (result.IsAttack or not Mod.Settings.allowTransfering) and NotTableEmpty(order.NumArmies.SpecialUnits) then		
+		if not Mod.Settings.allowAttacking and (result.IsAttack or not Mod.Settings.allowTransfering) and NotTableEmpty(order.NumArmies.SpecialUnits) then		
 			skipThisOrder(WL.ModOrderControl.Skip)
 		end
 	end
