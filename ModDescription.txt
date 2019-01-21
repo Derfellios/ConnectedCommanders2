@@ -1,6 +1,6 @@
 This mod adds new rules to commanders:
 1) Every starting territory can start with a commander.
-2) Commanders are only allowed to transfer, but you can also disallow that which causes them to stay at their spot or allow them to be able to attack.
+2) Commanders can be limited in their movement. Both transfering and attacking can be forbidden. Note that if a forbidden move is made, the order is cancelled and all armies remain on the territory.
 3) Reconnaisance cards can spawn a new commander when played on your own territory.
 4) When for a territory there is no path between it and a commander at the end of a turn, it becomes neutral.
 
