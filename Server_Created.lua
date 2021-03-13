@@ -1,3 +1,3 @@
 function Server_Created(game, settings)
-	settings.Commanders   = false;
+	settings.Commanders = false;
 end

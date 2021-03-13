@@ -1,21 +1,20 @@
+function startsWith(str, sub)
+	return string.sub(str, 1, string.len(sub)) == sub;
+end
+
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)	
 	local proxtype = order.proxyType
 	
-	if(proxtype == 'GameOrderPlayCardReconnaissance') then
-		-- Add Commanders with recon card.
-		local territory = game.ServerGame.LatestTurnStanding.Territories[order.TargetTerritory]
-        	local PlayerOwnedTerr = territory.OwnerPlayerID;
-        	local CardPlayer = order.PlayerID;
-            	if PlayerOwnedTerr == CardPlayer then
-			local Unit = WL.Commander.Create(CardPlayer); 
-			local effect = WL.TerritoryModification.Create(territory.ID);
-			effect.AddSpecialUnits = {Unit};
-			addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territory.ID].Name, {}, {effect}))
-            	end
-		addNewOrder(WL.GameOrderDiscard.Create(CardPlayer, order.CardInstanceID))
-		skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-        end
-		
+	if proxtype == 'GameOrderCustom' and startsWith(order.Payload, 'BuildCommander_') then
+		local territoryID = string.sub(order.Payload, 18);
+        local CardPlayer = order.PlayerID;
+		local Unit = WL.Commander.Create(CardPlayer); 
+		local effect = WL.TerritoryModification.Create(territoryID);
+		effect.AddSpecialUnits = {Unit};
+		addNewOrder(WL.GameOrderEvent.Create(CardPlayer, game.ServerGame.Game.Players[CardPlayer].DisplayName(nil, false) .. " deploys a Commander in " .. game.Map.Territories[territoryID].Name, {}, {effect}))
+		skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage);
+	end
+	
 	if (proxtype == 'GameOrderAttackTransfer') then
 		-- Recreates the order if the commanders attacks or transfers when transfering is not allowed
 		if not Mod.Settings.allowAttacking and (result.IsAttack or not Mod.Settings.allowTransfering) and NotTableEmpty(order.NumArmies.SpecialUnits) then		
